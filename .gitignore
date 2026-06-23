@@ -40,7 +40,7 @@ testem.log
 __screenshots__/
 
 # Environment files (contains API keys)
-/src/environments/environment.ts
+# /src/environments/environment.ts  -- Supabase anon key is public; uncomment if using secrets
 
 # System files
 .DS_Store
