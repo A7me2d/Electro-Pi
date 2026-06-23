@@ -9,7 +9,7 @@ A modern Angular application for managing educational courses with Supabase back
 - **Angular Material** (Form fields, selects, buttons, cards, icons, dialogs)
 - **Tailwind CSS v3** (Utility-first styling)
 - **RxJS** (Reactive Programming)
-- **ngx-toastr** (Notifications)
+- **Angular Material SnackBar** (Notifications)
 
 ## Features
 
@@ -29,7 +29,7 @@ A modern Angular application for managing educational courses with Supabase back
 
 ## Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - Angular CLI 22+
 - A Supabase account (free tier)
 
@@ -88,6 +88,12 @@ src/
 └── supabase-schema.sql
 ```
 
+## Assumptions
+
+- The Supabase project is already set up with the schema from `supabase-schema.sql`
+- The anon key is considered public and safe to include in the client bundle
+- Angular CLI is installed globally (`npm install -g @angular/cli`)
+
 ## Component Highlights
 
 ### Angular Material Integration
@@ -100,7 +106,7 @@ src/
 
 ## Data Source
 
-This application uses **Supabase** (PostgreSQL) as its backend. All CRUD operations are performed through the Supabase REST API.
+This application uses **Supabase** (PostgreSQL) as its backend instead of a mock API or local storage. All CRUD operations are performed through the Supabase REST API with Row Level Security (RLS) policies.
 
 ### Database Schema
 
