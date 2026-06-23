@@ -1,7 +1,9 @@
 <div class="space-y-6">
   <div class="flex items-center gap-3">
     <a routerLink="/courses" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-      <mat-icon class="text-lg">arrow_back</mat-icon> Back to Courses
+      <div class="back">
+        <mat-icon class="text-lg">arrow_back</mat-icon> Back to Courses
+      </div>
     </a>
     <h1 class="text-2xl font-bold text-gray-900 ml-auto">{{ isEditMode() ? 'Edit Course' : 'Add New Course' }}</h1>
   </div>
