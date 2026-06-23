@@ -46,7 +46,7 @@
                       {{ row[col.key] }}
                     </span>
                   } @else if (col.type === 'price') {
-                    <span class="text-gray-900 font-medium">${{ formatPrice(row[col.key]) }}</span>
+                    <span class="text-gray-900 font-medium">{{ formatPrice(row[col.key]) }} EGP</span>
                   } @else {
                     <span class="text-gray-700">{{ row[col.key] }}</span>
                   }
