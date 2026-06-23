@@ -4,10 +4,10 @@ A modern Angular application for managing educational courses with Supabase back
 
 ## Technologies Used
 
-- **Angular 22** (Standalone Components)
+- **Angular 22** (Standalone Components, Signals, Control Flow)
 - **Supabase** (Backend as a Service)
-- **Tailwind CSS v4** (Styling)
-- **Angular Material** (Dialog components)
+- **Angular Material** (Form fields, selects, buttons, cards, icons, dialogs)
+- **Tailwind CSS v3** (Utility-first styling)
 - **RxJS** (Reactive Programming)
 - **ngx-toastr** (Notifications)
 
@@ -24,6 +24,8 @@ A modern Angular application for managing educational courses with Supabase back
 - ✅ Empty & error states
 - ✅ Reusable table component
 - ✅ Lazy-loaded routes
+- ✅ Route guard for course details/edit
+- ✅ Deferred loading
 
 ## Prerequisites
 
@@ -68,7 +70,8 @@ Navigate to `http://localhost:4200`
 src/
 ├── app/
 │   ├── core/
-│   │   ├── components/       # Layout, navbar, footer, confirm-dialog
+│   │   ├── components/       # Layout, navbar, footer, loading-skeleton
+│   │   │                    # confirm-dialog, error-state, empty-state
 │   │   ├── guards/           # Route guards
 │   │   └── services/         # Supabase client service
 │   ├── features/
@@ -84,6 +87,16 @@ src/
 ├── environments/
 └── supabase-schema.sql
 ```
+
+## Component Highlights
+
+### Angular Material Integration
+- **Form fields**: `mat-form-field` with `matInput`, `mat-select`, `textarea` across all forms
+- **Buttons**: `mat-raised-button`, `mat-stroked-button`, `mat-icon-button`, `mat-button`
+- **Cards**: `mat-card` for course details layout
+- **Icons**: `mat-icon` with Material icons throughout
+- **Dialogs**: `MatDialog` for delete confirmation
+- **Selects**: `mat-select` with `mat-option` for status filter and form dropdowns
 
 ## Data Source
 
@@ -104,14 +117,13 @@ The `courses` table contains the following fields:
 
 ## Bonus Features
 
-- Pagination
+- Pagination with page size selector
 - Sorting by column
 - Confirmation dialog (Material Dialog)
 - Toast notifications
-- Lazy-loaded routes
+- Lazy-loaded routes with guard
 - Reusable table component
 - Loading skeleton
 - Empty & error states
 - Responsive design
 - Search with debounce
-# Electro-Pi
