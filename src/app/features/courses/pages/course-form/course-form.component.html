@@ -1,0 +1,115 @@
+<div class="space-y-6">
+  <div class="flex items-center gap-3">
+    <a routerLink="/courses" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+      <mat-icon class="text-lg">arrow_back</mat-icon> Back to Courses
+    </a>
+    <h1 class="text-2xl font-bold text-gray-900 ml-auto">{{ isEditMode() ? 'Edit Course' : 'Add New Course' }}</h1>
+  </div>
+
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()"
+    class="bg-white rounded-lg border border-gray-200 p-8 space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="md:col-span-2">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Course Name *</mat-label>
+          <input matInput formControlName="course_name" />
+          @if (courseForm.get('course_name')?.hasError('required') && courseForm.get('course_name')?.touched) {
+          <mat-error>Course name is required.</mat-error>
+          }
+          @if (courseForm.get('course_name')?.hasError('minlength')) {
+          <mat-error>Minimum 3 characters required.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="md:col-span-2">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Instructor Name *</mat-label>
+          <input matInput formControlName="instructor_name" />
+          @if (courseForm.get('instructor_name')?.hasError('required') && courseForm.get('instructor_name')?.touched) {
+          <mat-error>Instructor name is required.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Category *</mat-label>
+          <mat-select formControlName="category">
+            @for (cat of categories; track cat) {
+            <mat-option [value]="cat">{{ cat }}</mat-option>
+            }
+          </mat-select>
+          @if (courseForm.get('category')?.hasError('required') && courseForm.get('category')?.touched) {
+          <mat-error>Category is required.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Status *</mat-label>
+          <mat-select formControlName="status">
+            @for (st of statuses; track st) {
+            <mat-option [value]="st">{{ st }}</mat-option>
+            }
+          </mat-select>
+          @if (courseForm.get('status')?.hasError('required') && courseForm.get('status')?.touched) {
+          <mat-error>Status is required.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Duration (hours) *</mat-label>
+          <input matInput type="number" formControlName="duration" />
+          @if (courseForm.get('duration')?.hasError('required') && courseForm.get('duration')?.touched) {
+          <mat-error>Duration is required.</mat-error>
+          }
+          @if (courseForm.get('duration')?.hasError('min')) {
+          <mat-error>Must be greater than 0.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Price *</mat-label>
+          <input matInput type="number" formControlName="price" />
+          @if (courseForm.get('price')?.hasError('required') && courseForm.get('price')?.touched) {
+          <mat-error>Price is required.</mat-error>
+          }
+          @if (courseForm.get('price')?.hasError('min')) {
+          <mat-error>Price must be 0 or more.</mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="md:col-span-2">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Description (Optional)</mat-label>
+          <textarea matInput formControlName="description" rows="4" maxlength="500"></textarea>
+          @if (courseForm.get('description')?.hasError('maxlength')) {
+          <mat-error>Maximum 500 characters.</mat-error>
+          }
+          <mat-hint align="end">{{ (courseForm.get('description')?.value || '').length }}/500</mat-hint>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-4 pt-6 px-6 -mx-6 -mb-6 pb-6 bg-gray-50 border-t border-gray-200 rounded-b-lg">
+      <button mat-raised-button color="primary" type="submit" class="!min-w-[140px] !py-3" [disabled]="courseForm.invalid || submitting()">
+        <span class="flex items-center gap-2">
+          @if (submitting()) {
+            <mat-icon class="text-base">hourglass_empty</mat-icon>
+          } @else {
+            <mat-icon class="text-base">save</mat-icon>
+          }
+          {{ submitting() ? 'Saving...' : 'Save Course' }}
+        </span>
+      </button>
+      <a mat-stroked-button color="primary" routerLink="/courses">Cancel</a>
+    </div>
+  </form>
+</div>

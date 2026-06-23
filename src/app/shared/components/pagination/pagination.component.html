@@ -1,0 +1,30 @@
+<div class="flex items-center justify-between mt-6">
+  <span class="text-sm text-gray-600">
+    Showing {{ startItem() }}-{{ endItem() }} of {{ totalItems() }}
+  </span>
+
+  <div class="flex items-center gap-1">
+    <button mat-button [disabled]="currentPage() <= 1" (click)="pageChange.emit(currentPage() - 1)">
+      Previous
+    </button>
+
+    @for (page of pages(); track page) {
+      <button mat-button [class.active-page]="page === currentPage()" (click)="pageChange.emit(page)">
+        {{ page }}
+      </button>
+    }
+
+    <button mat-button [disabled]="currentPage() >= totalPages()" (click)="pageChange.emit(currentPage() + 1)">
+      Next
+    </button>
+  </div>
+
+  <mat-form-field appearance="outline" class="!w-28">
+    <mat-label>Per page</mat-label>
+    <mat-select [value]="pageSize()" (selectionChange)="onPageSizeChange($event.value)">
+      @for (size of pageSizeOptions(); track size) {
+      <mat-option [value]="size">{{ size }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>

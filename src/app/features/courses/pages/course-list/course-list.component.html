@@ -1,0 +1,46 @@
+<div class="space-y-6">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <h1 class="text-2xl font-bold text-gray-900">Courses</h1>
+    <button mat-raised-button color="primary" (click)="onAddCourse()">
+      Add Course
+    </button>
+  </div>
+
+  <div class="flex flex-col sm:flex-row my-4 gap-4 items-start">
+    <div class="flex-1 w-full sm:w-auto">
+      <app-search-input placeholder="Search courses by name..." (search)="onSearch($event)" />
+    </div>
+    <mat-form-field appearance="outline" class="!w-48">
+      <mat-label>Status</mat-label>
+      <mat-select (selectionChange)="onStatusFilter($event.value)">
+        <mat-option value="">All Statuses</mat-option>
+        @for (status of statuses; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <app-reusable-table [columns]="columns" [data]="tableData()" [loading]="loading()" [error]="error()"
+    [sortBy]="sortBy()" [sortOrder]="sortOrder()" [actionsTemplate]="actionsTpl" (sort)="onSort($event)"
+    (retry)="loadCourses()" (addAction)="onAddCourse()" />
+
+  <ng-template #actionsTpl let-course>
+    <div class="flex items-center justify-end gap-1">
+      <button mat-icon-button (click)="viewCourse(course)" title="View">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button mat-icon-button (click)="editCourse(course)" title="Edit">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteCourse(course)" title="Delete">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+  @if (totalCount() > 0) {
+  <app-pagination [currentPage]="page()" [totalItems]="totalCount()" [pageSize]="pageSize()"
+    (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)" />
+  }
+</div>
