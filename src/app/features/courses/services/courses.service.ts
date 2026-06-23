@@ -1,11 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { LoadingService } from '../../../core/services/loading.service';
 import { Course, CourseFilters, PaginatedResult } from '../models/course.model';
 import { from, map, Observable } from 'rxjs';
+import { trackLoading } from '../../../shared/utils/loading-operator';
 
 @Injectable({ providedIn: 'root' })
 export class CoursesService {
   private _supabase = inject(SupabaseService);
+  private _loading = inject(LoadingService);
 
   getCourses(filters: CourseFilters = {}): Observable<PaginatedResult<Course>> {
     let query = this._supabase.client
@@ -31,6 +34,7 @@ export class CoursesService {
     query = query.range(rangeFrom, rangeTo);
 
     return from(query).pipe(
+      trackLoading(this._loading),
       map(({ data, error, count }) => {
         if (error) throw error;
         return { data: (data as Course[]) || [], count: count || 0 };
@@ -42,6 +46,7 @@ export class CoursesService {
     return from(
       this._supabase.client.from('courses').select('*').eq('id', id).single()
     ).pipe(
+      trackLoading(this._loading),
       map(({ data, error }) => {
         if (error) throw error;
         return data as Course;
@@ -53,6 +58,7 @@ export class CoursesService {
     return from(
       this._supabase.client.from('courses').insert(course).select().single()
     ).pipe(
+      trackLoading(this._loading),
       map(({ data, error }) => {
         if (error) throw error;
         return data as Course;
@@ -64,6 +70,7 @@ export class CoursesService {
     return from(
       this._supabase.client.from('courses').update(course).eq('id', id).select().single()
     ).pipe(
+      trackLoading(this._loading),
       map(({ data, error }) => {
         if (error) throw error;
         return data as Course;
@@ -75,6 +82,7 @@ export class CoursesService {
     return from(
       this._supabase.client.from('courses').delete().eq('id', id)
     ).pipe(
+      trackLoading(this._loading),
       map(({ error }) => {
         if (error) throw error;
       })
