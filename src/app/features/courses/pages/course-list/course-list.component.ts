@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { CoursesService } from '../../services/courses.service';
 import { Course, CourseFilters, STATUSES } from '../../models/course.model';
@@ -32,7 +32,7 @@ import { listAnimation } from '../../../../shared/animations/animations';
 export class CourseListComponent implements OnInit {
   private _router = inject(Router);
   private _dialog = inject(MatDialog);
-  private _toastr = inject(ToastrService);
+  private _snackBar = inject(MatSnackBar);
   private _coursesService = inject(CoursesService);
   private _destroyRef = inject(DestroyRef);
 
@@ -101,7 +101,7 @@ export class CourseListComponent implements OnInit {
       error: () => {
         this.error.set(true);
         this.loading.set(false);
-        this._toastr.error('Failed to load courses', 'Error');
+        this._snackBar.open('Failed to load courses', 'Close', { duration: 3000, panelClass: 'snackbar-error' });
       }
     });
   }
@@ -155,10 +155,10 @@ export class CourseListComponent implements OnInit {
           takeUntilDestroyed(this._destroyRef)
         ).subscribe({
           next: () => {
-            this._toastr.success('Course deleted successfully!', 'Success');
+            this._snackBar.open('Course deleted successfully!', 'Close', { duration: 3000, panelClass: 'snackbar-success' });
             this.loadCourses();
           },
-          error: () => this._toastr.error('Failed to delete course', 'Error')
+          error: () => this._snackBar.open('Failed to delete course', 'Close', { duration: 3000, panelClass: 'snackbar-error' })
         });
       }
     });

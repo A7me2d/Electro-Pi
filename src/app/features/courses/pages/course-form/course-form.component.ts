@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { CoursesService } from '../../services/courses.service';
 import { CATEGORIES, STATUSES, Course } from '../../models/course.model';
@@ -22,7 +22,7 @@ import { CATEGORIES, STATUSES, Course } from '../../models/course.model';
 export class CourseFormComponent implements OnInit {
   private _router = inject(Router);
   private _route = inject(ActivatedRoute);
-  private _toastr = inject(ToastrService);
+  private _snackBar = inject(MatSnackBar);
   private _coursesService = inject(CoursesService);
   private _destroyRef = inject(DestroyRef);
 
@@ -63,7 +63,7 @@ export class CourseFormComponent implements OnInit {
             });
           }
         },
-        error: () => this._toastr.error('Failed to load course', 'Error')
+        error: () => this._snackBar.open('Failed to load course', 'Close', { duration: 3000, panelClass: 'snackbar-error' })
       });
     }
   }
@@ -92,15 +92,16 @@ export class CourseFormComponent implements OnInit {
       takeUntilDestroyed(this._destroyRef)
     ).subscribe({
       next: () => {
-        this._toastr.success(
+        this._snackBar.open(
           this._courseId ? 'Course updated successfully!' : 'Course created successfully!',
-          'Success'
+          'Close',
+          { duration: 3000, panelClass: 'snackbar-success' }
         );
         this._router.navigate(['/courses']);
       },
       error: () => {
         this.submitting.set(false);
-        this._toastr.error('Failed to save course', 'Error');
+        this._snackBar.open('Failed to save course', 'Close', { duration: 3000, panelClass: 'snackbar-error' });
       }
     });
   }

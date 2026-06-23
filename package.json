@@ -25,7 +25,6 @@
     "@angular/router": "^22.0.0",
     "@supabase/supabase-js": "^2.108.2",
     "material-icons-font": "^2.1.0",
-    "ngx-toastr": "^20.0.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
