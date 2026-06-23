@@ -38,12 +38,14 @@ export class CourseListComponent implements OnInit {
 
   protected readonly statuses = STATUSES;
   protected readonly columns: TableColumn[] = [
-    { key: 'course_name', label: 'Course Name', sortable: true, width: '25%' },
-    { key: 'instructor_name', label: 'Instructor', sortable: true, width: '18%' },
-    { key: 'category', label: 'Category', width: '12%' },
-    { key: 'duration', label: 'Duration (hrs)', sortable: true, width: '12%' },
-    { key: 'price', label: 'Price', sortable: true, width: '10%', type: 'price' },
-    { key: 'status', label: 'Status', width: '10%', type: 'status' },
+    { key: 'displayId', label: 'ID', width: '10%' },
+    { key: 'course_name', label: 'Course Name', sortable: true, width: '18%' },
+    { key: 'instructor_name', label: 'Instructor', sortable: true, width: '15%' },
+    { key: 'category', label: 'Category', width: '10%' },
+    { key: 'duration', label: 'Duration (hrs)', sortable: true, width: '10%' },
+    { key: 'price', label: 'Price', sortable: true, width: '8%', type: 'price' },
+    { key: 'status', label: 'Status', width: '8%', type: 'status' },
+    { key: 'created_at', label: 'Created At', sortable: true, width: '12%' },
   ];
 
   protected courses = signal<Course[]>([]);
@@ -94,7 +96,13 @@ export class CourseListComponent implements OnInit {
         this.totalCount.set(result.count);
         this.tableData.set(result.data.map(course => ({
           ...course,
-          duration: `${course.duration}h`
+          duration: `${course.duration}h`,
+          created_at: new Date(course.created_at).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          }),
+          displayId: course.id.slice(0, 8) + '...',
         })));
         this.loading.set(false);
       },
